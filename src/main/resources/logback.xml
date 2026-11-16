@@ -1,0 +1,49 @@
+<configuration>
+  <shutdownHook />
+
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>INFO</level>
+    </filter>
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{48} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="ASYNC_CONSOLE" class="ch.qos.logback.classic.AsyncAppender">
+    <queueSize>8192</queueSize>
+    <discardingThreshold>0</discardingThreshold>
+    <neverBlock>true</neverBlock>
+    <appender-ref ref="CONSOLE" />
+  </appender>
+
+  <appender name="SHARD_COORDINATOR_FILE" class="ch.qos.logback.core.FileAppender">
+    <file>shard-coordinator-node-${benchmark.node:-unknown}.log</file>
+    <append>true</append>
+    <encoder>
+      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="ASYNC_SHARD_COORDINATOR_FILE" class="ch.qos.logback.classic.AsyncAppender">
+    <queueSize>8192</queueSize>
+    <discardingThreshold>0</discardingThreshold>
+    <neverBlock>true</neverBlock>
+    <maxFlushTime>0</maxFlushTime>
+    <appender-ref ref="SHARD_COORDINATOR_FILE" />
+  </appender>
+
+  <logger name="akka.cluster.sharding.ShardCoordinator" level="DEBUG" additivity="false">
+    <appender-ref ref="ASYNC_SHARD_COORDINATOR_FILE" />
+  </logger>
+  <logger name="akka.cluster.sharding.DDataShardCoordinator" level="DEBUG" additivity="false">
+    <appender-ref ref="ASYNC_SHARD_COORDINATOR_FILE" />
+  </logger>
+  <logger name="akka.cluster.sharding.PersistentShardCoordinator" level="DEBUG" additivity="false">
+    <appender-ref ref="ASYNC_SHARD_COORDINATOR_FILE" />
+  </logger>
+
+  <root level="INFO">
+    <appender-ref ref="ASYNC_CONSOLE" />
+  </root>
+</configuration>

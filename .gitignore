@@ -1,0 +1,5 @@
+.bsp/
+*.semanticdb
+*.log
+target/
+project/project
