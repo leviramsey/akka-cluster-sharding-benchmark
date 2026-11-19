@@ -1,0 +1,30 @@
+Change from 2.11.0: eagerly forwards termination notifications to rebalance workers
+node=0 samples=100072 p50=485.491 ms p90=2908.750 ms p99=10007.609 ms p99.9=10007.609 ms over_10s=3219
+node=1 samples=103705 p50=473.170 ms p90=3053.453 ms p99=10007.609 ms p99.9=10007.609 ms over_10s=3399
+node=2 samples=100364 p50=445.907 ms p90=2936.013 ms p99=10007.609 ms p99.9=10007.609 ms over_10s=3038
+node=3 samples=103675 p50=394.265 ms p90=2722.103 ms p99=10007.609 ms p99.9=10007.609 ms over_10s=1465
+node=4 samples=101422 p50=419.168 ms p90=2699.035 ms p99=10007.609 ms p99.9=10007.609 ms over_10s=1354
+node=5 samples=102685 p50=408.945 ms p90=2753.561 ms p99=10007.609 ms p99.9=10007.609 ms over_10s=1717
+node=6 samples=101150 p50=409.993 ms p90=2785.018 ms p99=10007.609 ms p99.9=10007.609 ms over_10s=1954
+node=7 samples=102913 p50=396.100 ms p90=2797.601 ms p99=10007.609 ms p99.9=10007.609 ms over_10s=2055
+node=8 samples=101749 p50=395.313 ms p90=2703.229 ms p99=10007.609 ms p99.9=10007.609 ms over_10s=1236
+node=9 samples=103847 p50=399.770 ms p90=2743.075 ms p99=10007.609 ms p99.9=10007.609 ms over_10s=1589
+node=10 samples=101806 p50=378.798 ms p90=2566.914 ms p99=5217.714 ms p99.9=10007.609 ms over_10s=222
+node=11 samples=103106 p50=368.312 ms p90=2556.428 ms p99=5213.520 ms p99.9=10007.609 ms over_10s=222
+node=12 samples=100560 p50=386.662 ms p90=2564.817 ms p99=5452.595 ms p99.9=10007.609 ms over_10s=384
+node=13 samples=104212 p50=427.557 ms p90=2715.812 ms p99=9722.397 ms p99.9=10007.609 ms over_10s=898
+node=14 samples=97087 p50=540.541 ms p90=2856.321 ms p99=10007.609 ms p99.9=10007.609 ms over_10s=2364
+
+$ python3 scripts/coordinator_state_latency.py shard-coordinator-node-*.log | grep -v 'samples=0'
+shard-coordinator-node-0.log: samples=72660 retries=0 unmatched_stores=0 unmatched_successes=0
+  latency_ms: min=2.000 mean=12.728 p50=11.000 p90=20.000 p99=37.000 max=233.000
+shard-coordinator-node-12.log: samples=59249 retries=0 unmatched_stores=0 unmatched_successes=0
+  latency_ms: min=3.000 mean=12.794 p50=11.000 p90=18.000 p99=31.000 max=1029.000
+shard-coordinator-node-13.log: samples=18717 retries=1 unmatched_stores=0 unmatched_successes=0
+  latency_ms: min=0.000 mean=12.837 p50=11.000 p90=21.000 p99=42.000 max=5020.000
+shard-coordinator-node-14.log: samples=15156 retries=0 unmatched_stores=0 unmatched_successes=0
+  latency_ms: min=2.000 mean=11.940 p50=11.000 p90=19.000 p99=33.000 max=91.000
+shard-coordinator-node-1.log: samples=5637 retries=0 unmatched_stores=0 unmatched_successes=0
+  latency_ms: min=3.000 mean=13.482 p50=12.000 p90=20.000 p99=42.000 max=1025.000
+ALL: samples=171419 retries=1 unmatched_stores=0 unmatched_successes=0
+  latency_ms: min=0.000 mean=12.718 p50=11.000 p90=19.000 p99=36.000 max=5020.000
